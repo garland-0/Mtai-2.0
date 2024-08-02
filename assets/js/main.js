@@ -147,3 +147,47 @@ sr.reveal(`.services__card`,{interval: 100})
 sr.reveal(`.discount__data`,{origin: 'left'})
 sr.reveal(`.discount__iamges`,{origin: 'right'})
 
+document.addEventListener("DOMContentLoaded", function() {  
+    const elements = document.querySelectorAll('.slide-right, .slide-left');  
+
+    const observerOptions = {  
+        root: null,  
+        rootMargin: "0px",  
+        threshold: 0.1  
+    };  
+
+    {
+      root: null, // Use the viewport as the root
+      rootMargin: '0px',
+      threshold: 0.5 // Trigger the animation when 50% of the element is visible
+    };
+
+    // Create the Intersection Observer
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const element = entry.target;
+          // Reset animation for both <h1>, <h2>, and <p>
+          element.querySelector('h1').style.animation = 'none'; // Reset
+          element.querySelector('h2').style.animation = 'none'; // Reset
+          element.querySelector('p').style.animation = 'none'; // Reset
+          // Trigger reflow to restart animation
+          element.querySelector('h1').offsetHeight; // Trigger reflow
+          element.querySelector('h2').offsetHeight; // Trigger reflow
+          element.querySelector('p').offsetHeight; // Trigger reflow
+          // Apply animation
+          element.querySelector('h1').style.animation = '1s slide-right 1s forwards';
+          element.querySelector('h2').style.animation = '1s slide-right 1s forwards';
+          element.querySelector('p').style.animation = '1s slide-right 1s forwards';
+        }
+      });
+    }, observerOptions);
+
+    // Observe the elements
+    const elements = document.querySelectorAll('.animated-element');
+    elements.forEach(element => {
+      observer.observe(element);
+    });
+  </script>
+</body>
+</html>
